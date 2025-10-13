@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -34,14 +36,6 @@
             height: 100%;
         }
         /* --- Fim da Animação Black Hole --- */
-
-        /* Efeito de parallax */
-        .parallax {
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
 
         /* Animações de scroll */
         .reveal {
@@ -82,23 +76,14 @@
             box-shadow: 0 10px 20px -10px rgba(56, 189, 248, 0.4);
         }
         
-        /* Card de serviço */
-        .service-card {
-            background-color: #ffffff; 
-            border: 1px solid #e2e8f0; /* slate-200 */
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        /* Cards */
+        .service-card, .value-card {
+            transition: all 0.3s ease;
         }
         .service-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            border-color: #38bdf8; /* sky-500 */
-        }
-        
-        /* Card de Valor */
-        .value-card {
-            background-color: #f8fafc; /* slate-50 */
-            border: 1px solid #e2e8f0; /* slate-200 */
-            transition: all 0.3s ease;
+            border-color: #38bdf8;
         }
         .value-card:hover {
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
@@ -119,6 +104,238 @@
         .animate-pulse-whatsapp {
             animation: pulse-whatsapp 2s infinite;
         }
+        
+        /* --- Estilos da Seção de Projetos --- */
+        #projects {
+            position: relative;
+            background: #f8fafc; /* slate-50 */
+            overflow: hidden;
+        }
+
+        .particles-js-canvas-el {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .projects-container {
+            width: 90%;
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .swiper {
+            width: 100%;
+            padding: 50px 0;
+        }
+
+        .swiper-slide {
+            position: relative;
+            width: 250px;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 1s;
+            user-select: none;
+            cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        .swiper-slide::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, rgba(15, 23, 42, 0.8), rgba(56, 189, 248, 0.6));
+            mix-blend-mode: multiply;
+            z-index: 1;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 1s;
+        }
+
+        .swiper-slide p {
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+            color: #fff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: 0.8s ease-out;
+        }
+
+        .swiper-slide-active {
+            width: 400px;
+        }
+
+        .swiper-slide-active::after {
+            background: rgba(15, 23, 42, 0.4);
+        }
+
+        .swiper-slide-active img {
+            transform: scale(1.2);
+        }
+
+        .swiper-slide-active p {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .swiper-pagination-bullet {
+            width: 12px;
+            height: 12px;
+            background-color: #0f172a;
+            opacity: 0.5;
+            transition: all 0.6s ease-in-out;
+        }
+
+        .swiper-pagination-bullet-active {
+            width: 24px;
+            background-color: #38bdf8;
+            opacity: 1;
+            border-radius: 14px;
+        }
+        
+        /* --- Estilos do Modal de Projeto --- */
+        .project-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        
+        .project-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .project-modal-content {
+            background: #fff;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.4s ease;
+            display: flex;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        @media (min-width: 768px) {
+            .project-modal-content {
+                flex-direction: row;
+                height: 450px;
+            }
+        }
+        
+        .project-modal.open .project-modal-content {
+            transform: scale(1);
+        }
+
+        .project-modal-image {
+            width: 100%;
+            flex-shrink: 0;
+            transform: translateX(-100%);
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        
+        @media (min-width: 768px) {
+           .project-modal-image {
+                width: 45%;
+           }
+        }
+
+        .project-modal.open .project-modal-image {
+            transform: translateX(0);
+        }
+        
+        .project-modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .project-modal-text {
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.3s;
+        }
+        
+        .project-modal.open .project-modal-text {
+            opacity: 1;
+        }
+
+        .project-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            background-color: #f1f5f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            z-index: 10;
+        }
+        
+        .project-modal-close:hover {
+            background-color: #e2e8f0;
+            transform: rotate(90deg);
+        }
+        
+        /* Botão Voltar ao Topo */
+        #scroll-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 100px; /* Posição à esquerda do botão de WhatsApp */
+            z-index: 50;
+            background-color: #0f172a;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+        #scroll-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        #scroll-to-top:hover {
+            background-color: #1e293b;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -131,6 +348,7 @@
             <!-- Navegação Desktop --><nav class="hidden md:flex items-center space-x-8">
                 <a href="#about" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Sobre Nós</a>
                 <a href="#services" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Serviços</a>
+                <a href="#projects" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Projetos</a>
                 <a href="#values" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Valores</a>
                 <a href="#contact" class="bg-sky-500 text-white px-5 py-2 rounded-md font-semibold hover:bg-sky-600 transition-all duration-300 shadow-lg hover:shadow-sky-500/50 cta-button">Contato</a>
             </nav>
@@ -141,6 +359,7 @@
         <!-- Menu Mobile --><div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
             <a href="#about" class="block text-center py-3 px-4 text-slate-700 hover:bg-slate-50 hover:text-sky-500 transition-colors">Sobre Nós</a>
             <a href="#services" class="block text-center py-3 px-4 text-slate-700 hover:bg-slate-50 hover:text-sky-500 transition-colors">Serviços</a>
+            <a href="#projects" class="block text-center py-3 px-4 text-slate-700 hover:bg-slate-50 hover:text-sky-500 transition-colors">Projetos</a>
             <a href="#values" class="block text-center py-3 px-4 text-slate-700 hover:bg-slate-50 hover:text-sky-500 transition-colors">Valores</a>
             <a href="#contact" class="block text-center py-4 px-4 text-white bg-sky-500 hover:bg-sky-600 transition-colors">Contato</a>
         </div>
@@ -180,55 +399,71 @@
                     <p class="text-slate-600 mt-4 max-w-2xl mx-auto reveal" style="transition-delay: 150ms;">Um ecossistema completo de tecnologia para proteger o que mais importa.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Card 1: CFTV Inteligente --><div class="service-card p-8 rounded-lg text-center reveal">
+                     <div class="service-card p-8 rounded-lg text-center reveal">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                            <img src="https://cdn-icons-png.flaticon.com/128/82/82669.png" alt="CFTV Inteligente" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">CFTV Inteligente</h3>
                         <p class="text-slate-600">Monitoramento avançado com análise de vídeo, detecção de movimento e reconhecimento de padrões.</p>
                     </div>
-                    <!-- Card 2: Controle Biométrico --><div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 100ms;">
+                    <div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 100ms;">
                          <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                             <img src="https://cdn-icons-png.flaticon.com/128/3132/3132092.png" alt="Controle Biométrico" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Controle Biométrico</h3>
                         <p class="text-slate-600">Acesso seguro e rastreável através de leitura de digitais, reconhecimento facial e outros dados biométricos.</p>
                     </div>
-                    <!-- Card 3: Controle Veicular --><div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 200ms;">
+                    <div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 200ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                            <img src="https://cdn-icons-png.flaticon.com/128/17785/17785898.png" alt="Controle Veicular" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Controle Veicular</h3>
                         <p class="text-slate-600">Gerenciamento inteligente de acesso de veículos com leitura de placas, tag RFID e automação de portões.</p>
                     </div>
-                    <!-- Card 4: Defesa Perimetral --><div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 300ms;">
+                    <div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 300ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                            <img src="https://cdn-icons-png.flaticon.com/128/6440/6440409.png" alt="Defesa Perimetral" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Defesa Perimetral</h3>
                         <p class="text-slate-600">Barreiras invisíveis e detecção de intrusão para proteção completa das fronteiras do seu ambiente.</p>
                     </div>
-                    <!-- Card 5: Automação Predial --><div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 400ms;">
+                    <div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 400ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                            <img src="https://cdn-icons-png.flaticon.com/128/1165/1165103.png" alt="Automação Predial" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Automação Predial</h3>
                         <p class="text-slate-600">Controle integrado de iluminação, climatização, acesso e energia para eficiência e conforto.</p>
                     </div>
-                    <!-- Card 6: Consultoria --><div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 500ms;">
+                    <div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 500ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                            <img src="https://cdn-icons-png.flaticon.com/128/10465/10465661.png" alt="Consultoria" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Consultoria</h3>
                         <p class="text-slate-600">Diagnóstico, planejamento e implementação de projetos de segurança personalizados para sua necessidade.</p>
                     </div>
-                     <!-- Card 7: Inteligência Artificial --><div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 600ms;">
+                     <div class="service-card p-8 rounded-lg text-center reveal" style="transition-delay: 600ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                             <img src="https://cdn-icons-png.flaticon.com/128/17782/17782756.png" alt="Inteligência Artificial" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Inteligência Artificial</h3>
                         <p class="text-slate-600">Sistemas autônomos para análise preditiva, otimização e tomada de decisão em tempo real na segurança.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Projetos --><section id="projects" class="py-20 md:py-32 flex flex-col items-center justify-center">
+            <div id="particles-js"></div>
+            <div class="text-center mb-10 z-10 px-6">
+                 <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Projetos de Destaque</h2>
+                 <p class="text-slate-600 mt-4 max-w-2xl mx-auto reveal" style="transition-delay: 150ms;">Veja na prática como transformamos ambientes com tecnologia e inovação.</p>
+            </div>
+            <div class="projects-container">
+                <div class="swiper">
+                    <div class="swiper-wrapper" id="project-swiper-wrapper">
+                        <!-- Slides serão inseridos aqui via JS -->
+                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </section>
@@ -240,28 +475,28 @@
                     <p class="text-slate-600 mt-4 max-w-2xl mx-auto reveal" style="transition-delay: 150ms;">Acreditamos que a parceria é construída sobre pilares sólidos.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Valor 1: Confiança --><div class="value-card p-8 rounded-lg text-center reveal">
+                     <div class="value-card p-8 rounded-lg text-center reveal">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                            <img src="https://cdn-icons-png.flaticon.com/128/5462/5462889.png" alt="Confiança" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Confiança</h3>
                         <p class="text-slate-600">Construímos relações duradouras baseadas na transparência e integridade.</p>
                     </div>
-                    <!-- Valor 2: Excelência --><div class="value-card p-8 rounded-lg text-center reveal" style="transition-delay: 100ms;">
+                    <div class="value-card p-8 rounded-lg text-center reveal" style="transition-delay: 100ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Excelência</h3>
                         <p class="text-slate-600">Buscamos a perfeição em cada detalhe, entregando soluções de alto nível.</p>
                     </div>
-                    <!-- Valor 3: Inovação --><div class="value-card p-8 rounded-lg text-center reveal" style="transition-delay: 200ms;">
+                    <div class="value-card p-8 rounded-lg text-center reveal" style="transition-delay: 200ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                            <img src="https://cdn-icons-png.flaticon.com/128/912/912278.png" alt="Inovação" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
                         <h3 class="text-xl font-bold text-slate-900 mb-3">Inovação</h3>
                         <p class="text-slate-600">Antecipamos tendências e aplicamos as tecnologias mais avançadas do mercado.</p>
                     </div>
-                    <!-- Valor 4: Resultados Mensuráveis --><div class="value-card p-8 rounded-lg text-center reveal" style="transition-delay: 300ms;">
+                    <div class="value-card p-8 rounded-lg text-center reveal" style="transition-delay: 300ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
                             <img src="https://cdn-icons-png.flaticon.com/128/1340/1340105.png" alt="Resultados Mensuráveis" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
@@ -314,286 +549,177 @@
             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 4.315 1.731 6.086l.287.468-1.039 3.806 3.805-1.038.452.273zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01s-.521.074-.792.372c-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.203 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
         </svg>
     </a>
-
+    
+    <!-- Botão Voltar ao Topo -->
+    <a href="#" id="scroll-to-top" aria-label="Voltar ao topo">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+        </svg>
+    </a>
+    
+    <!-- Modal de Projeto -->
+    <div id="project-modal" class="project-modal">
+        <div class="project-modal-content">
+             <div id="project-modal-close" class="project-modal-close">
+                 <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </div>
+            <div class="project-modal-image">
+                <img id="project-modal-image" src="" alt="Imagem do Projeto">
+            </div>
+            <div class="project-modal-text">
+                <h3 id="project-modal-title" class="text-2xl font-bold text-slate-900 mb-4"></h3>
+                <p id="project-modal-description" class="text-slate-600"></p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Swiper.js e Particles.js -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script type="module">
         import easingUtils from "https://esm.sh/easing-utils";
 
         class BlackHole extends HTMLElement {
-            /**
-             * Init
-             */
             connectedCallback() {
-                // Elements
                 this.canvas = this.querySelector(".js-canvas");
                 this.ctx = this.canvas.getContext("2d");
-
-                // Init
                 this.setSizes();
                 this.bindEvents();
-
-                // RAF
                 requestAnimationFrame(this.tick.bind(this));
             }
-
-            /**
-             * Bind events
-             */
             bindEvents() {
                 window.addEventListener("resize", this.onResize.bind(this));
             }
-
-            /**
-             * Resize handler
-             */
             onResize() {
-                this.setSizes()
+                this.setSizes();
             }
-
-            /**
-             * Set sizes
-             */
             setSizes() {
-                this.setCanvasSize()
-                this.setGraphics()
+                this.setCanvasSize();
+                this.setGraphics();
             }
-
-            /**
-             * Set canvas size
-             */
             setCanvasSize() {
-                const rect = this.getBoundingClientRect()
-
+                const rect = this.getBoundingClientRect();
                 this.render = {
                     width: rect.width,
                     hWidth: rect.width * 0.5,
                     height: rect.height,
                     hHeight: rect.height * 0.5,
-                    dpi: window.devicePixelRatio
-                }
-
-                this.canvas.width = this.render.width * this.render.dpi
-                this.canvas.height = this.render.height * this.render.dpi
+                    dpi: window.devicePixelRatio,
+                };
+                this.canvas.width = this.render.width * this.render.dpi;
+                this.canvas.height = this.render.height * this.render.dpi;
             }
-
-            /**
-             * Set graphics
-             */
             setGraphics() {
-                this.setDiscs()
-                this.setDots()
+                this.setDiscs();
+                this.setDots();
             }
-
-            /**
-             * Set discs
-             */
             setDiscs() {
-                this.discs = []
-
+                this.discs = [];
                 this.startDisc = {
                     x: this.render.width * 0.5,
                     y: this.render.height * 0,
                     w: this.render.width * 1,
-                    h: this.render.height * 1
-                }
-                
-                // Otimização: Reduz o número de discos em telas menores
+                    h: this.render.height * 1,
+                };
                 const totalDiscs = window.innerWidth < 768 ? 75 : 150;
-
                 for (let i = 0; i < totalDiscs; i++) {
-                    const p = i / totalDiscs
-
-                    const disc = this.tweenDisc({
-                        p
-                    })
-
-                    this.discs.push(disc)
+                    const p = i / totalDiscs;
+                    const disc = this.tweenDisc({ p });
+                    this.discs.push(disc);
                 }
             }
-
-            /**
-             * Set dots
-             */
             setDots() {
-                this.dots = []
-                
-                // Otimização: Reduz o número de pontos em telas menores
+                this.dots = [];
                 const totalDots = window.innerWidth < 768 ? 5000 : 20000;
-
                 for (let i = 0; i < totalDots; i++) {
-                    const disc = this.discs[Math.floor(this.discs.length * Math.random())]
+                    const disc = this.discs[Math.floor(this.discs.length * Math.random())];
                     const dot = {
                         d: disc,
                         a: 0,
                         c: `rgb(${Math.random() * 0}, ${150 + Math.random() * 50}, ${150 + Math.random() * 105})`,
                         p: Math.random(),
-                        o: Math.random()
-                    }
-
-                    this.dots.push(dot)
+                        o: Math.random(),
+                    };
+                    this.dots.push(dot);
                 }
             }
-
-
-            /**
-             * Tween disc
-             */
             tweenDisc(disc) {
-                const {
-                    startDisc
-                } = this
-
-                const scaleX = this.tweenValue(1, 0, disc.p, 'outCubic')
-                const scaleY = this.tweenValue(1, 0, disc.p, 'outExpo')
-
-                disc.sx = scaleX
-                disc.sy = scaleY
-
-                disc.w = startDisc.w * scaleX
-                disc.h = startDisc.h * scaleY
-
-                disc.x = startDisc.x
-                disc.y = startDisc.y + disc.p * startDisc.h * 1
-
-                return disc
+                const { startDisc } = this;
+                const scaleX = this.tweenValue(1, 0, disc.p, "outCubic");
+                const scaleY = this.tweenValue(1, 0, disc.p, "outExpo");
+                disc.sx = scaleX;
+                disc.sy = scaleY;
+                disc.w = startDisc.w * scaleX;
+                disc.h = startDisc.h * scaleY;
+                disc.x = startDisc.x;
+                disc.y = startDisc.y + disc.p * startDisc.h * 1;
+                return disc;
             }
-
-            /**
-             * Tween value
-             */
             tweenValue(start, end, p, ease = false) {
-                const delta = end - start
-
-                const easeFn =
-                    easingUtils[
-                        ease ? "ease" + ease.charAt(0).toUpperCase() + ease.slice(1) : "linear"
-                    ];
-
+                const delta = end - start;
+                const easeFn = easingUtils[ease ? "ease" + ease.charAt(0).toUpperCase() + ease.slice(1) : "linear"];
                 return start + delta * easeFn(p);
             }
-
-            /**
-             * Draw discs
-             */
             drawDiscs() {
-                const {
-                    ctx
-                } = this
-
-                ctx.strokeStyle = '#0329'
-                ctx.lineWidth = 1
-
-                // Discs
-                this.discs.forEach((disc, i) => {
-                    const p = disc.sx * disc.sy
-
-                    ctx.beginPath()
-
-                    ctx.globalAlpha = disc.a
-
-                    ctx.ellipse(
-                        disc.x,
-                        disc.y + disc.h,
-                        disc.w,
-                        disc.h,
-                        0,
-                        0,
-                        Math.PI * 2
-                    )
-                    ctx.stroke()
-
-                    ctx.closePath()
-                })
+                const { ctx } = this;
+                ctx.strokeStyle = "#0329";
+                ctx.lineWidth = 1;
+                this.discs.forEach((disc) => {
+                    ctx.beginPath();
+                    ctx.globalAlpha = disc.a;
+                    ctx.ellipse(disc.x, disc.y + disc.h, disc.w, disc.h, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.closePath();
+                });
             }
-
-            /**
-             * Draw dots
-             */
             drawDots() {
-                const {
-                    ctx
-                } = this
-
-
+                const { ctx } = this;
                 this.dots.forEach((dot) => {
-                    const {
-                        d,
-                        a,
-                        p,
-                        c,
-                        o
-                    } = dot
-
-                    const _p = d.sx * d.sy
-                    ctx.fillStyle = c
-
-                    const newA = a + (Math.PI * 2 * p)
-                    const x = d.x + Math.cos(newA) * d.w
-                    const y = d.y + Math.sin(newA) * d.h
-
-                    ctx.globalAlpha = d.a * o
-
-                    ctx.beginPath()
-                    ctx.arc(x, y + d.h, 1 + _p * 0.5, 0, Math.PI * 2)
-                    ctx.fill()
-                    ctx.closePath()
-                })
+                    const { d, a, p, c, o } = dot;
+                    const _p = d.sx * d.sy;
+                    ctx.fillStyle = c;
+                    const newA = a + Math.PI * 2 * p;
+                    const x = d.x + Math.cos(newA) * d.w;
+                    const y = d.y + Math.sin(newA) * d.h;
+                    ctx.globalAlpha = d.a * o;
+                    ctx.beginPath();
+                    ctx.arc(x, y + d.h, 1 + _p * 0.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.closePath();
+                });
             }
-
-            /**
-             * Move discs
-             */
             moveDiscs() {
                 this.discs.forEach((disc) => {
-                    disc.p = (disc.p + 0.0003) % 1
-
-                    this.tweenDisc(disc)
-
-                    const p = disc.sx * disc.sy
-
-                    let a = 1
+                    disc.p = (disc.p + 0.0003) % 1;
+                    this.tweenDisc(disc);
+                    const p = disc.sx * disc.sy;
+                    let a = 1;
                     if (p < 0.01) {
-                        a = Math.pow(Math.min(p / 0.01, 1), 3)
+                        a = Math.pow(Math.min(p / 0.01, 1), 3);
                     } else if (p > 0.2) {
-                        a = 1 - Math.min((p - 0.2) / 0.8, 1)
+                        a = 1 - Math.min((p - 0.2) / 0.8, 1);
                     }
-
-                    disc.a = a
-                })
+                    disc.a = a;
+                });
             }
-
-            /**
-             * Move dots
-             */
             moveDots() {
                 this.dots.forEach((dot) => {
-                    const v = this.tweenValue(0, 0.001, 1 - dot.d.sx * dot.d.sy, 'inExpo')
-                    dot.p = (dot.p + v) % 1
-                })
+                    const v = this.tweenValue(0, 0.001, 1 - dot.d.sx * dot.d.sy, "inExpo");
+                    dot.p = (dot.p + v) % 1;
+                });
             }
-
-            /**
-             * Tick
-             */
-            tick(time) {
-                const {
-                    ctx
-                } = this;
-
+            tick() {
+                const { ctx } = this;
+                if (!ctx) return;
                 ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
                 ctx.save();
                 ctx.scale(this.render.dpi, this.render.dpi);
-
-                // Move
-                this.moveDiscs()
-                this.moveDots()
-
-                // Draw
-                this.drawDiscs()
-                this.drawDots()
-
+                this.moveDiscs();
+                this.moveDots();
+                this.drawDiscs();
+                this.drawDots();
                 ctx.restore();
-
                 requestAnimationFrame(this.tick.bind(this));
             }
         }
@@ -605,13 +731,20 @@
             const header = document.getElementById('header');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
+            const scrollToTopBtn = document.getElementById('scroll-to-top');
 
-            // Lógica do Header ao rolar
+            // Lógica do Header e Botão Voltar ao Topo
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
                     header.classList.add('header-scrolled');
                 } else {
                     header.classList.remove('header-scrolled');
+                }
+                
+                if (window.scrollY > 400) {
+                    scrollToTopBtn.classList.add('show');
+                } else {
+                    scrollToTopBtn.classList.remove('show');
                 }
             });
 
@@ -619,31 +752,114 @@
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
-
-            // Lógica de Animação ao rolar (Intersection Observer)
-            const revealElements = document.querySelectorAll('.reveal');
             
+            const mobileLinks = document.querySelectorAll('#mobile-menu a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                     mobileMenu.classList.add('hidden');
+                });
+            });
+            
+            // Lógica do Intersection Observer
+            const revealElements = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
                     }
                 });
-            }, {
-                threshold: 0.1 
-            });
+            }, { threshold: 0.1 });
+            revealElements.forEach(el => observer.observe(el));
 
-            revealElements.forEach(el => {
-                observer.observe(el);
+
+            // --- LÓGICA DA SEÇÃO DE PROJETOS ---
+            
+            const projectsData = [
+                {
+                    imageSrc: "https://i.ibb.co/QjdjGdpj/Imagem-do-Whats-App-de-2025-10-11-s-12-21-48-be7f91b2.jpg",
+                    title: "Projeto 1",
+                    description: "Descrição"
+                },
+                {
+                    imageSrc: "https://i.ibb.co/CpCCRfcP/Imagem-do-Whats-App-de-2025-10-11-s-12-21-49-568d5549.jpg",
+                    title: "Projeto 2",
+                    description: "Descrição"
+                },
+                {
+                    imageSrc: "https://i.ibb.co/9mdMkbV9/Imagem-do-Whats-App-de-2025-10-11-s-12-21-49-384c1d19.jpg",
+                    title: "Projeto 3",
+                    description: "Descrição"
+                },
+                {
+                    imageSrc: "https://i.ibb.co/gLJzd8X8/Imagem-do-Whats-App-de-2025-10-11-s-12-21-50-82c3c5ec.jpg",
+                    title: "Projeto 4",
+                    description: "Descrição"
+                },
+                {
+                    imageSrc: "https://i.ibb.co/WNXP1KZT/Imagem-do-Whats-App-de-2025-10-11-s-12-21-54-486e06b2.jpg",
+                    title: "Projeto 5",
+                    description: "Descrição"
+                },
+            ];
+
+            const swiperWrapper = document.getElementById('project-swiper-wrapper');
+            projectsData.forEach(project => {
+                const slide = document.createElement('div');
+                slide.classList.add('swiper-slide');
+                slide.innerHTML = `
+                    <img src="${project.imageSrc}" loading="lazy" decoding="async" />
+                    <p>${project.title}</p>
+                `;
+                swiperWrapper.appendChild(slide);
             });
             
-            // Fechar menu mobile ao clicar em um link
-            const mobileLinks = mobileMenu.querySelectorAll('a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                     mobileMenu.classList.add('hidden');
-                });
+            var swiper = new Swiper(".swiper", {
+                grabCursor: true,
+                initialSlide: 2,
+                centeredSlides: true,
+                slidesPerView: "auto",
+                spaceBetween: 20,
+                speed: 1000,
+                pagination: { el: ".swiper-pagination", clickable: true },
+                on: { click(event) { swiper.slideTo(this.clickedIndex); } },
             });
+
+            particlesJS("particles-js", {
+                particles: {
+                    number: { value: 100, density: { enable: true, value_area: 800 } },
+                    color: { value: "#0f172a" }, shape: { type: "circle" },
+                    opacity: { value: 0.2, random: true }, size: { value: 3, random: true },
+                    line_linked: { enable: false },
+                    move: { enable: true, speed: 0.5, direction: "none", random: true, straight: false, out_mode: "out" },
+                },
+                retina_detect: true,
+            });
+            
+            const modal = document.getElementById('project-modal');
+            const modalClose = document.getElementById('project-modal-close');
+            const modalImage = document.getElementById('project-modal-image');
+            const modalTitle = document.getElementById('project-modal-title');
+            const modalDescription = document.getElementById('project-modal-description');
+            
+            swiperWrapper.addEventListener('click', (e) => {
+                const clickedSlide = e.target.closest('.swiper-slide');
+                if (clickedSlide && clickedSlide.classList.contains('swiper-slide-active')) {
+                    const activeIndex = swiper.activeIndex;
+                    const project = projectsData[activeIndex];
+                    
+                    modalImage.src = project.imageSrc;
+                    modalTitle.textContent = project.title;
+                    modalDescription.textContent = project.description;
+                    modal.classList.add('open');
+                }
+            });
+            
+            const closeModal = () => modal.classList.remove('open');
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if(e.target === modal) closeModal();
+            });
+
         });
     </script>
 </body>
