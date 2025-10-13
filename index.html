@@ -17,7 +17,7 @@
             color: #0f172a; /* Cor de texto principal (slate-900) */
         }
 
-        /* --- Animação Black Hole --- */
+        
         black-hole {
             position: absolute;
             top: 0;
@@ -35,9 +35,7 @@
             width: 100%;
             height: 100%;
         }
-        /* --- Fim da Animação Black Hole --- */
-
-        /* Animações de scroll */
+       
         .reveal {
             opacity: 0;
             transform: translateY(60px);
@@ -49,7 +47,7 @@
             transform: translateY(0);
         }
 
-        /* Efeito gradiente no texto */
+        
         .gradient-text {
             background: linear-gradient(90deg, #38bdf8, #6366f1);
             -webkit-background-clip: text;
@@ -58,7 +56,7 @@
             text-fill-color: transparent;
         }
 
-        /* Estilo do header ao rolar a página */
+        
         .header-scrolled {
             background-color: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(10px);
@@ -66,7 +64,7 @@
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
         }
         
-        /* Botão customizado */
+       
         .cta-button {
             transition: all 0.3s ease;
         }
@@ -76,7 +74,7 @@
             box-shadow: 0 10px 20px -10px rgba(56, 189, 248, 0.4);
         }
         
-        /* Cards */
+      
         .service-card, .value-card {
             transition: all 0.3s ease;
         }
@@ -90,7 +88,7 @@
             transform: translateY(-5px);
         }
         
-        /* Animação para o botão do WhatsApp */
+        
         @keyframes pulse-whatsapp {
           0%, 100% {
             transform: scale(1);
@@ -105,7 +103,7 @@
             animation: pulse-whatsapp 2s infinite;
         }
         
-        /* --- Estilos da Seção de Projetos --- */
+ 
         #projects {
             position: relative;
             background: #f8fafc; /* slate-50 */
@@ -121,7 +119,7 @@
         }
 
         .projects-container {
-            width: 100%; /* Ocupa 100% em mobile para o swiper controlar o overflow */
+            width: 100%; 
             z-index: 2;
         }
         
@@ -198,15 +196,15 @@
             opacity: 1;
         }
 
-        /* --- Estilos de Projetos para MOBILE --- */
+        
         @media (max-width: 767px) {
             .swiper-slide {
-                width: 80%; /* Cada slide ocupa 80% da tela */
+                width: 80%; 
                 height: 380px;
             }
             .swiper-slide-active {
-                width: 80%; /* Largura igual para o slide ativo */
-                transform: scale(1.05); /* Efeito de destaque sutil */
+                width: 80%;
+                transform: scale(1.05); 
             }
             .swiper-slide-active img {
                  transform: scale(1.1);
@@ -229,7 +227,7 @@
             border-radius: 14px;
         }
         
-        /* --- Estilos do Modal de Projeto --- */
+        
         .project-modal {
             position: fixed;
             top: 0;
@@ -278,7 +276,7 @@
 
         .project-modal-image {
             width: 100%;
-            height: 200px; /* Altura fixa para imagem no mobile */
+            height: 200px; 
             flex-shrink: 0;
             transform: translateX(-100%);
             transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
@@ -337,7 +335,7 @@
             transform: rotate(90deg);
         }
         
-        /* Botão Voltar ao Topo */
+        
         #scroll-to-top {
             position: fixed;
             bottom: 24px;
@@ -369,23 +367,23 @@
 </head>
 <body class="antialiased">
 
-    <!-- Header --><header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+   <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- Logo --><a href="#">
+            <a href="#">
                 <img src="https://i.ibb.co/rGHgyQWt/56171-Cognitiva-130121-aa-01-1.png" alt="Logo Cognitiva" class="h-8 md:h-10 transition-transform duration-300 hover:scale-105">
             </a>
-            <!-- Navegação Desktop --><nav class="hidden md:flex items-center space-x-8">
+            <nav class="hidden md:flex items-center space-x-8">
                 <a href="#about" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Sobre Nós</a>
                 <a href="#services" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Serviços</a>
                 <a href="#projects" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Projetos</a>
                 <a href="#values" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Valores</a>
                 <a href="#contact" class="bg-sky-500 text-white px-5 py-2 rounded-md font-semibold hover:bg-sky-600 transition-all duration-300 shadow-lg hover:shadow-sky-500/50 cta-button">Contato</a>
             </nav>
-            <!-- Botão Menu Mobile --><button id="mobile-menu-button" class="md:hidden text-slate-800 focus:outline-none">
+          <button id="mobile-menu-button" class="md:hidden text-slate-800 focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </div>
-        <!-- Menu Mobile --><div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
+       <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg">
             <a href="#about" class="block text-center py-3 px-4 text-slate-700 hover:bg-slate-50 hover:text-sky-500 transition-colors">Sobre Nós</a>
             <a href="#services" class="block text-center py-3 px-4 text-slate-700 hover:bg-slate-50 hover:text-sky-500 transition-colors">Serviços</a>
             <a href="#projects" class="block text-center py-3 px-4 text-slate-700 hover:bg-slate-50 hover:text-sky-500 transition-colors">Projetos</a>
@@ -395,7 +393,7 @@
     </header>
 
     <main>
-        <!-- Seção Hero com Black Hole --><section class="min-h-screen relative flex items-center justify-center text-center overflow-hidden">
+       <section class="min-h-screen relative flex items-center justify-center text-center overflow-hidden">
             <black-hole>
                 <canvas class="js-canvas"></canvas>
             </black-hole>
@@ -408,7 +406,7 @@
             </div>
         </section>
 
-        <!-- Seção Sobre / Problema e Solução --><section id="about" class="py-20 md:py-32 bg-white">
+       <section id="about" class="py-20 md:py-32 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Quanto custa a sua paz de espírito?</h2>
@@ -421,7 +419,7 @@
             </div>
         </section>
 
-        <!-- Seção de Serviços --><section id="services" class="py-20 md:py-32 bg-slate-50">
+        <section id="services" class="py-20 md:py-32 bg-slate-50">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Nossas Soluções em Segurança 5.0</h2>
@@ -481,7 +479,7 @@
             </div>
         </section>
 
-        <!-- Seção de Projetos --><section id="projects" class="py-20 md:py-32 flex flex-col items-center justify-center">
+       <section id="projects" class="py-20 md:py-32 flex flex-col items-center justify-center">
             <div id="particles-js"></div>
             <div class="text-center mb-10 z-10 px-6">
                  <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Projetos de Destaque</h2>
@@ -497,7 +495,7 @@
             </div>
         </section>
 
-        <!-- Seção de Valores --><section id="values" class="py-20 md:py-32 bg-white">
+        <section id="values" class="py-20 md:py-32 bg-white">
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Nossos Valores</h2>
@@ -536,7 +534,7 @@
             </div>
         </section>
         
-        <!-- Seção de Contato CTA WhatsApp --><section id="contact" class="py-20 md:py-32 bg-slate-50">
+        <section id="contact" class="py-20 md:py-32 bg-slate-50">
             <div class="container mx-auto px-6">
                  <div class="text-center">
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Proteja seu futuro. Fale com a Cognitiva.</h2>
@@ -560,7 +558,7 @@
 
     </main>
     
-    <!-- Footer --><footer class="bg-white border-t border-slate-200">
+    <footer class="bg-white border-t border-slate-200">
         <div class="container mx-auto px-6 py-8 text-center text-slate-500">
             <img src="https://i.ibb.co/rGHgyQWt/56171-Cognitiva-130121-aa-01-1.png" alt="Logo Cognitiva" class="h-8 mx-auto mb-4">
             <p>&copy; 2024 Cognitiva. Todos os direitos reservados.</p>
@@ -568,7 +566,7 @@
         </div>
     </footer>
     
-    <!-- Botão Flutuante do WhatsApp -->
+   
     <a href="https://wa.me/554187538712?text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20as%20solu%C3%A7%C3%B5es%20da%20Cognitiva." 
        target="_blank" 
        rel="noopener noreferrer"
@@ -579,14 +577,14 @@
         </svg>
     </a>
     
-    <!-- Botão Voltar ao Topo -->
+    
     <a href="#" id="scroll-to-top" aria-label="Voltar ao topo">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
         </svg>
     </a>
     
-    <!-- Modal de Projeto -->
+    
     <div id="project-modal" class="project-modal">
         <div class="project-modal-content">
              <div id="project-modal-close" class="project-modal-close">
@@ -602,7 +600,7 @@
         </div>
     </div>
     
-    <!-- Swiper.js e Particles.js -->
+    
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
@@ -762,7 +760,7 @@
             const mobileMenu = document.getElementById('mobile-menu');
             const scrollToTopBtn = document.getElementById('scroll-to-top');
 
-            // Lógica do Header e Botão Voltar ao Topo
+         
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 50) {
                     header.classList.add('header-scrolled');
@@ -777,7 +775,7 @@
                 }
             });
 
-            // Lógica do Menu Mobile
+          
             mobileMenuButton.addEventListener('click', () => {
                 mobileMenu.classList.toggle('hidden');
             });
@@ -789,7 +787,7 @@
                 });
             });
             
-            // Lógica do Intersection Observer
+            
             const revealElements = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -801,7 +799,7 @@
             revealElements.forEach(el => observer.observe(el));
 
 
-            // --- LÓGICA DA SEÇÃO DE PROJETOS ---
+           
             
              const projectsData = [
                 {
