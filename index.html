@@ -121,9 +121,15 @@
         }
 
         .projects-container {
-            width: 90%;
-            max-width: 1200px;
+            width: 100%; /* Ocupa 100% em mobile para o swiper controlar o overflow */
             z-index: 2;
+        }
+        
+        @media (min-width: 1024px) {
+            .projects-container {
+                width: 90%;
+                max-width: 1200px;
+            }
         }
 
         .swiper {
@@ -133,14 +139,14 @@
 
         .swiper-slide {
             position: relative;
-            width: 250px;
             height: 400px;
             border-radius: 12px;
             overflow: hidden;
-            transition: 1s;
+            transition: width 0.8s ease, transform 0.8s ease;
             user-select: none;
             cursor: pointer;
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            width: 250px; /* Largura padrão para desktop */
         }
 
         .swiper-slide::after {
@@ -158,7 +164,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: 1s;
+            transition: transform 0.8s ease;
         }
 
         .swiper-slide p {
@@ -191,6 +197,22 @@
             transform: translateY(0);
             opacity: 1;
         }
+
+        /* --- Estilos de Projetos para MOBILE --- */
+        @media (max-width: 767px) {
+            .swiper-slide {
+                width: 80%; /* Cada slide ocupa 80% da tela */
+                height: 380px;
+            }
+            .swiper-slide-active {
+                width: 80%; /* Largura igual para o slide ativo */
+                transform: scale(1.05); /* Efeito de destaque sutil */
+            }
+            .swiper-slide-active img {
+                 transform: scale(1.1);
+            }
+        }
+
 
         .swiper-pagination-bullet {
             width: 12px;
@@ -256,6 +278,7 @@
 
         .project-modal-image {
             width: 100%;
+            height: 200px; /* Altura fixa para imagem no mobile */
             flex-shrink: 0;
             transform: translateX(-100%);
             transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
@@ -264,6 +287,7 @@
         @media (min-width: 768px) {
            .project-modal-image {
                 width: 45%;
+                height: 100%;
            }
         }
 
@@ -278,10 +302,15 @@
         }
         
         .project-modal-text {
-            padding: 2rem;
+            padding: 1.5rem;
             opacity: 0;
             transition: opacity 0.5s ease 0.3s;
         }
+         @media (min-width: 768px) {
+            .project-modal-text {
+                padding: 2rem;
+            }
+         }
         
         .project-modal.open .project-modal-text {
             opacity: 1;
@@ -534,7 +563,7 @@
     <!-- Footer --><footer class="bg-white border-t border-slate-200">
         <div class="container mx-auto px-6 py-8 text-center text-slate-500">
             <img src="https://i.ibb.co/rGHgyQWt/56171-Cognitiva-130121-aa-01-1.png" alt="Logo Cognitiva" class="h-8 mx-auto mb-4">
-            <p>&copy; 2025 Cognitiva. Todos os direitos reservados.</p>
+            <p>&copy; 2024 Cognitiva. Todos os direitos reservados.</p>
             <p class="text-sm mt-2">Construindo o futuro da segurança, uma inovação de cada vez.</p>
         </div>
     </footer>
@@ -774,7 +803,7 @@
 
             // --- LÓGICA DA SEÇÃO DE PROJETOS ---
             
-            const projectsData = [
+             const projectsData = [
                 {
                     imageSrc: "https://i.ibb.co/QjdjGdpj/Imagem-do-Whats-App-de-2025-10-11-s-12-21-48-be7f91b2.jpg",
                     title: "Projeto 1",
