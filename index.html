@@ -17,25 +17,6 @@
             color: #0f172a; /* Cor de texto principal (slate-900) */
         }
 
-        
-        black-hole {
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #000;
-        }
-
-        black-hole canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-       
         .reveal {
             opacity: 0;
             transform: translateY(60px);
@@ -58,12 +39,36 @@
 
         
         .header-scrolled {
-            background-color: rgba(255, 255, 255, 0.85);
+            background-color: rgba(15, 23, 42, 0.9); /* Fundo escuro ao rolar */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
         }
         
+        /* Ajustes para o header transparente no topo */
+        #header .nav-link {
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            transition: color 0.3s ease;
+        }
+        #header a img {
+            transition: filter 0.3s ease;
+            filter: brightness(0) invert(1); /* Deixa a logo branca por padrão */
+        }
+
+        /* Estilos do header quando a página é rolada */
+        .header-scrolled .nav-link {
+            color: #ffffff; /* Texto branco ao rolar */
+            text-shadow: none;
+        }
+        .header-scrolled .nav-link:hover {
+            color: #38bdf8; /* Cor de hover para o texto branco */
+        }
+        .header-scrolled a img {
+             filter: brightness(0) invert(1); /* Mantém a logo branca ao rolar */
+        }
+         .header-scrolled #mobile-menu-button {
+             color: #ffffff;
+        }
        
         .cta-button {
             transition: all 0.3s ease;
@@ -363,6 +368,74 @@
         #scroll-to-top:hover {
             background-color: #1e293b;
         }
+
+        /* Estilos para o slider de logos */
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 10))}
+        }
+
+        .slider {
+            background: white;
+            height: 120px;
+            margin: auto;
+            overflow:hidden;
+            position: relative;
+            width: 100%;
+            max-width: 960px;
+        }
+
+        .slider::before,
+        .slider::after {
+            background: linear-gradient(to right,  rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+            content: "";
+            height: 120px;
+            position: absolute;
+            width: 200px;
+            z-index: 2;
+        }
+
+        .slider::after {
+            right: 0;
+            top: 0;
+            transform: rotateZ(180deg);
+        }
+
+        .slider::before {
+            left: 0;
+            top: 0;
+        }
+
+        .slider .slide-track {
+            animation: scroll 60s linear infinite;
+            display: flex;
+            width: calc(250px * 20); /* 10 logos * 2 */
+        }
+
+        .slider .slide {
+            height: 120px;
+            width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .slider .slide img {
+            max-width: 80%;
+            max-height: 80%;
+            object-fit: contain;
+            transition: all 0.3s ease;
+        }
+
+        .slider .slide:hover img {
+            transform: scale(1.1);
+        }
+        
+        footer img {
+            filter: brightness(0) invert(1);
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -373,13 +446,13 @@
                 <img src="https://i.ibb.co/rGHgyQWt/56171-Cognitiva-130121-aa-01-1.png" alt="Logo Cognitiva" class="h-8 md:h-10 transition-transform duration-300 hover:scale-105">
             </a>
             <nav class="hidden md:flex items-center space-x-8">
-                <a href="#about" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Sobre Nós</a>
-                <a href="#services" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Serviços</a>
-                <a href="#projects" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Projetos</a>
-                <a href="#values" class="text-slate-700 hover:text-sky-500 transition-colors duration-300 font-medium">Valores</a>
+                <a href="#about" class="text-white hover:text-sky-300 font-medium nav-link">Sobre Nós</a>
+                <a href="#services" class="text-white hover:text-sky-300 font-medium nav-link">Serviços</a>
+                <a href="#projects" class="text-white hover:text-sky-300 font-medium nav-link">Projetos</a>
+                <a href="#values" class="text-white hover:text-sky-300 font-medium nav-link">Valores</a>
                 <a href="#contact" class="bg-sky-500 text-white px-5 py-2 rounded-md font-semibold hover:bg-sky-600 transition-all duration-300 shadow-lg hover:shadow-sky-500/50 cta-button">Contato</a>
             </nav>
-          <button id="mobile-menu-button" class="md:hidden text-slate-800 focus:outline-none">
+          <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
             </button>
         </div>
@@ -393,11 +466,12 @@
     </header>
 
     <main>
-       <section class="min-h-screen relative flex items-center justify-center text-center overflow-hidden">
-            <black-hole>
-                <canvas class="js-canvas"></canvas>
-            </black-hole>
-            <div class="container mx-auto px-6 z-10">
+       <!-- Seção Hero com nova imagem de fundo e overlay -->
+       <section class="min-h-screen relative flex items-center justify-center text-center bg-cover bg-center" style="background-image: url('https://i.ibb.co/mCL7Ycfw/comunicacao-app-sindico.jpg');">
+            <!-- Overlay com gradiente de cores para dar o tom desejado -->
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-teal-900/60 to-slate-900/80"></div>
+            <!-- Container do conteúdo precisa ser relativo para ficar sobre o overlay -->
+            <div class="container mx-auto px-6 z-10 relative">
                 <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-4 reveal">
                     A Sua Jornada para a <span class="gradient-text">Segurança 5.0</span> Começa Agora
                 </h1>
@@ -408,13 +482,10 @@
 
        <section id="about" class="py-20 md:py-32 bg-white">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Quanto custa a sua paz de espírito?</h2>
-                    <p class="text-slate-600 mt-4 max-w-3xl mx-auto reveal" style="transition-delay: 150ms;">Se você é o responsável pela gestão e infraestrutura de um Ambiente de Alto Padrão ou Setor Corporativo, sabe que a ineficiência tecnológica é o seu maior risco.</p>
-                </div>
-                <div class="max-w-4xl mx-auto text-center">
-                    <p class="text-lg text-slate-700 mb-8 reveal" style="transition-delay: 300ms;">Com <span class="font-semibold text-sky-600">mais de 20 anos de experiência consolidada na Capital do Paraná</span> e um histórico de sucesso ao lado de parceiros como a <span class="font-semibold text-sky-600">Providência Síndicos</span>, expandimos nossa expertise para o <span class="font-semibold text-sky-600">mercado catarinense</span>.</p>
-                    <p class="text-lg text-slate-700 reveal" style="transition-delay: 450ms;">Oferecemos soluções que são construídas sobre a base da confiança e da excelência.</p>
+                <div class="text-center max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6 reveal">A inteligência por trás da segurança de grandes marcas, agora em Santa Catarina.</h2>
+                    <p class="text-lg text-slate-700 mb-6 reveal" style="transition-delay: 150ms;">Somos especialistas em transformar sistemas de segurança em infraestruturas inteligentes, seguras e em conformidade com as normas e a cibersegurança.</p>
+                    <p class="text-lg text-slate-700 reveal" style="transition-delay: 300ms;">Com mais de 20 anos de experiência em projetos corporativos e residenciais de alto padrão, consolidamos nossa atuação ao lado de grandes marcas no Paraná, e agora expandimos nossa presença para o mercado catarinense, levando o mesmo rigor técnico, visão consultiva e padrão de excelência que nos tornaram referência.</p>
                 </div>
             </div>
         </section>
@@ -499,42 +570,76 @@
             <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Nossos Valores</h2>
-                    <p class="text-slate-600 mt-4 max-w-2xl mx-auto reveal" style="transition-delay: 150ms;">Acreditamos que a parceria é construída sobre pilares sólidos.</p>
+                    <p class="text-slate-600 mt-4 max-w-2xl mx-auto reveal" style="transition-delay: 150ms;">Não basta instalar. É preciso pensar, auditar e entregar segurança com propósito.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                      <div class="value-card p-8 rounded-lg text-center reveal">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
-                           <img src="https://cdn-icons-png.flaticon.com/128/5462/5462889.png" alt="Confiança" class="h-10 w-10" loading="lazy" decoding="async">
+                           <img src="https://cdn-icons-png.flaticon.com/128/2421/2421341.png" alt="Engenharia com Propósito" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Confiança</h3>
-                        <p class="text-slate-600">Construímos relações duradouras baseadas na transparência e integridade.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Engenharia com Propósito</h3>
+                        <p class="text-slate-600">Cada decisão é guiada por análise, norma e resultado. Pensamos o sistema antes de ligar o primeiro cabo.</p>
                     </div>
                     <div class="value-card p-8 rounded-lg text-center reveal" style="transition-delay: 100ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            <img src="https://cdn-icons-png.flaticon.com/128/10108/10108269.png" alt="Transparência & Confiabilidade" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Excelência</h3>
-                        <p class="text-slate-600">Buscamos a perfeição em cada detalhe, entregando soluções de alto nível.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Transparência & Confiabilidade</h3>
+                        <p class="text-slate-600">A confiança nasce quando cada dado, laudo e medição refletem o que foi prometido e entregue.</p>
                     </div>
                     <div class="value-card p-8 rounded-lg text-center reveal" style="transition-delay: 200ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
-                           <img src="https://cdn-icons-png.flaticon.com/128/912/912278.png" alt="Inovação" class="h-10 w-10" loading="lazy" decoding="async">
+                           <img src="https://cdn-icons-png.flaticon.com/128/1087/1087927.png" alt="Inovação que Antecipa Riscos" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Inovação</h3>
-                        <p class="text-slate-600">Antecipamos tendências e aplicamos as tecnologias mais avançadas do mercado.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Inovação que Antecipa Riscos</h3>
+                        <p class="text-slate-600">Implementamos soluções que preveem falhas antes que aconteçam porque segurança também é proatividade.</p>
                     </div>
                     <div class="value-card p-8 rounded-lg text-center reveal" style="transition-delay: 300ms;">
                         <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/10 text-sky-500 mx-auto mb-6">
-                            <img src="https://cdn-icons-png.flaticon.com/128/1340/1340105.png" alt="Resultados Mensuráveis" class="h-10 w-10" loading="lazy" decoding="async">
+                            <img src="https://cdn-icons-png.flaticon.com/128/1340/1340105.png" alt="Resultados Reais, Não Promessas" class="h-10 w-10" loading="lazy" decoding="async">
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 mb-3">Resultados Mensuráveis</h3>
-                        <p class="text-slate-600">Foco em entregas que geram valor real e impacto positivo para nossos clientes.</p>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Resultados Reais, Não Promessas</h3>
+                        <p class="text-slate-600">Projetos auditáveis, indicadores mensuráveis e entregas que resistem a testes técnicos e cibernéticos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="clients" class="py-20 md:py-32 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Clientes que fazem parte de nossa História</h2>
+                    <p class="text-slate-600 mt-4 max-w-2xl mx-auto reveal" style="transition-delay: 150ms;">A confiança de grandes marcas é o nosso maior ativo.</p>
+                </div>
+                <div class="slider">
+                    <div class="slide-track">
+                        <div class="slide"><img src="https://i.ibb.co/SwyDpFqN/logo-BLUH.png" alt="Logo BLUH" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/TxwDDWZ9/PUCPRbras-o.png" alt="Logo PUCPR" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/5W4bnLPM/logo-sanepar-2048.png" alt="Logo Sanepar" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/vCjftQX7/Banner-destaque-Experience-2560x1440-mg-destacada-1200x882.jpg" alt="Logo Laguna" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/hx20bLvG/botanica-administradora-de-condominios-curitiba-parana.jpg" alt="Logo Botanica" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/SXttR46c/logo-vert-color.png" alt="Logo Providência Síndicos" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/pvBTm4xR/bookpomecorretores-141205140422-conversion-gate01-thumbnail.webp" alt="Logo Apolar" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/LX0XCGgk/82-820129-renault-logo-renault-logo-2017-png.png" alt="Logo Renault" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/6JgJWXcW/Electrolux-2015-svg.png" alt="Logo Electrolux" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/fh3qFTd/images.png" alt="Logo Volvo" /></div>
+                        <!-- Repetição para o loop infinito -->
+                        <div class="slide"><img src="https://i.ibb.co/SwyDpFqN/logo-BLUH.png" alt="Logo BLUH" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/TxwDDWZ9/PUCPRbras-o.png" alt="Logo PUCPR" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/5W4bnLPM/logo-sanepar-2048.png" alt="Logo Sanepar" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/vCjftQX7/Banner-destaque-Experience-2560x1440-mg-destacada-1200x882.jpg" alt="Logo Laguna" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/hx20bLvG/botanica-administradora-de-condominios-curitiba-parana.jpg" alt="Logo Botanica" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/SXttR46c/logo-vert-color.png" alt="Logo Providência Síndicos" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/pvBTm4xR/bookpomecorretores-141205140422-conversion-gate01-thumbnail.webp" alt="Logo Apolar" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/LX0XCGgk/82-820129-renault-logo-renault-logo-2017-png.png" alt="Logo Renault" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/6JgJWXcW/Electrolux-2015-svg.png" alt="Logo Electrolux" /></div>
+                        <div class="slide"><img src="https://i.ibb.co/fh3qFTd/images.png" alt="Logo Volvo" /></div>
                     </div>
                 </div>
             </div>
         </section>
         
-        <section id="contact" class="py-20 md:py-32 bg-slate-50">
+        <section id="contact" class="py-20 md:py-32 bg-white">
             <div class="container mx-auto px-6">
                  <div class="text-center">
                     <h2 class="text-3xl md:text-4xl font-bold text-slate-900 reveal">Proteja seu futuro. Fale com a Cognitiva.</h2>
@@ -558,11 +663,25 @@
 
     </main>
     
-    <footer class="bg-white border-t border-slate-200">
-        <div class="container mx-auto px-6 py-8 text-center text-slate-500">
-            <img src="https://i.ibb.co/rGHgyQWt/56171-Cognitiva-130121-aa-01-1.png" alt="Logo Cognitiva" class="h-8 mx-auto mb-4">
-            <p>&copy; 2024 Cognitiva. Todos os direitos reservados.</p>
-            <p class="text-sm mt-2">Construindo o futuro da segurança, uma inovação de cada vez.</p>
+    <footer class="bg-slate-900 text-slate-300">
+        <div class="container mx-auto px-6 py-12 text-center md:text-left">
+            <div class="md:flex md:justify-between md:items-center">
+                <div class="mb-8 md:mb-0">
+                    <img src="https://i.ibb.co/rGHgyQWt/56171-Cognitiva-130121-aa-01-1.png" alt="Logo Cognitiva" class="h-12 mx-auto md:mx-0 mb-4">
+                    <h3 class="text-lg font-semibold text-white">Cognitiva do Brasil</h3>
+                    <p class="text-sm italic">“Excelência técnica e inteligência aplicada à segurança.”</p>
+                    <p class="mt-2 text-sm font-semibold tracking-wider">Security. Compliance. Intelligence. Repeat.</p>
+                </div>
+                <div class="text-sm">
+                    <p class="font-semibold text-white">Cognitiva do Brasil LTDA</p>
+                    <p>Rua Buenos Aires 73, Batel, Curitiba</p>
+                    <p>41 3798-3939 / 41 99568-4658</p>
+                    <p>CNPJ: 48.836.097/0001-01</p>
+                </div>
+            </div>
+            <div class="border-t border-slate-700 mt-8 pt-6 text-sm text-center">
+                 <p>&copy; 2025 Cognitiva. Todos os direitos reservados.</p>
+            </div>
         </div>
     </footer>
     
@@ -604,155 +723,6 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
-    <script type="module">
-        import easingUtils from "https://esm.sh/easing-utils";
-
-        class BlackHole extends HTMLElement {
-            connectedCallback() {
-                this.canvas = this.querySelector(".js-canvas");
-                this.ctx = this.canvas.getContext("2d");
-                this.setSizes();
-                this.bindEvents();
-                requestAnimationFrame(this.tick.bind(this));
-            }
-            bindEvents() {
-                window.addEventListener("resize", this.onResize.bind(this));
-            }
-            onResize() {
-                this.setSizes();
-            }
-            setSizes() {
-                this.setCanvasSize();
-                this.setGraphics();
-            }
-            setCanvasSize() {
-                const rect = this.getBoundingClientRect();
-                this.render = {
-                    width: rect.width,
-                    hWidth: rect.width * 0.5,
-                    height: rect.height,
-                    hHeight: rect.height * 0.5,
-                    dpi: window.devicePixelRatio,
-                };
-                this.canvas.width = this.render.width * this.render.dpi;
-                this.canvas.height = this.render.height * this.render.dpi;
-            }
-            setGraphics() {
-                this.setDiscs();
-                this.setDots();
-            }
-            setDiscs() {
-                this.discs = [];
-                this.startDisc = {
-                    x: this.render.width * 0.5,
-                    y: this.render.height * 0,
-                    w: this.render.width * 1,
-                    h: this.render.height * 1,
-                };
-                const totalDiscs = window.innerWidth < 768 ? 75 : 150;
-                for (let i = 0; i < totalDiscs; i++) {
-                    const p = i / totalDiscs;
-                    const disc = this.tweenDisc({ p });
-                    this.discs.push(disc);
-                }
-            }
-            setDots() {
-                this.dots = [];
-                const totalDots = window.innerWidth < 768 ? 5000 : 20000;
-                for (let i = 0; i < totalDots; i++) {
-                    const disc = this.discs[Math.floor(this.discs.length * Math.random())];
-                    const dot = {
-                        d: disc,
-                        a: 0,
-                        c: `rgb(${Math.random() * 0}, ${150 + Math.random() * 50}, ${150 + Math.random() * 105})`,
-                        p: Math.random(),
-                        o: Math.random(),
-                    };
-                    this.dots.push(dot);
-                }
-            }
-            tweenDisc(disc) {
-                const { startDisc } = this;
-                const scaleX = this.tweenValue(1, 0, disc.p, "outCubic");
-                const scaleY = this.tweenValue(1, 0, disc.p, "outExpo");
-                disc.sx = scaleX;
-                disc.sy = scaleY;
-                disc.w = startDisc.w * scaleX;
-                disc.h = startDisc.h * scaleY;
-                disc.x = startDisc.x;
-                disc.y = startDisc.y + disc.p * startDisc.h * 1;
-                return disc;
-            }
-            tweenValue(start, end, p, ease = false) {
-                const delta = end - start;
-                const easeFn = easingUtils[ease ? "ease" + ease.charAt(0).toUpperCase() + ease.slice(1) : "linear"];
-                return start + delta * easeFn(p);
-            }
-            drawDiscs() {
-                const { ctx } = this;
-                ctx.strokeStyle = "#0329";
-                ctx.lineWidth = 1;
-                this.discs.forEach((disc) => {
-                    ctx.beginPath();
-                    ctx.globalAlpha = disc.a;
-                    ctx.ellipse(disc.x, disc.y + disc.h, disc.w, disc.h, 0, 0, Math.PI * 2);
-                    ctx.stroke();
-                    ctx.closePath();
-                });
-            }
-            drawDots() {
-                const { ctx } = this;
-                this.dots.forEach((dot) => {
-                    const { d, a, p, c, o } = dot;
-                    const _p = d.sx * d.sy;
-                    ctx.fillStyle = c;
-                    const newA = a + Math.PI * 2 * p;
-                    const x = d.x + Math.cos(newA) * d.w;
-                    const y = d.y + Math.sin(newA) * d.h;
-                    ctx.globalAlpha = d.a * o;
-                    ctx.beginPath();
-                    ctx.arc(x, y + d.h, 1 + _p * 0.5, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.closePath();
-                });
-            }
-            moveDiscs() {
-                this.discs.forEach((disc) => {
-                    disc.p = (disc.p + 0.0003) % 1;
-                    this.tweenDisc(disc);
-                    const p = disc.sx * disc.sy;
-                    let a = 1;
-                    if (p < 0.01) {
-                        a = Math.pow(Math.min(p / 0.01, 1), 3);
-                    } else if (p > 0.2) {
-                        a = 1 - Math.min((p - 0.2) / 0.8, 1);
-                    }
-                    disc.a = a;
-                });
-            }
-            moveDots() {
-                this.dots.forEach((dot) => {
-                    const v = this.tweenValue(0, 0.001, 1 - dot.d.sx * dot.d.sy, "inExpo");
-                    dot.p = (dot.p + v) % 1;
-                });
-            }
-            tick() {
-                const { ctx } = this;
-                if (!ctx) return;
-                ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                ctx.save();
-                ctx.scale(this.render.dpi, this.render.dpi);
-                this.moveDiscs();
-                this.moveDots();
-                this.drawDiscs();
-                this.drawDots();
-                ctx.restore();
-                requestAnimationFrame(this.tick.bind(this));
-            }
-        }
-
-        customElements.define("black-hole", BlackHole);
-    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.getElementById('header');
@@ -891,4 +861,5 @@
     </script>
 </body>
 </html>
+
 
